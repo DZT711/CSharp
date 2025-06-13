@@ -66,5 +66,6 @@
   "dotnetAcquisitionExtension.allowInvalidPaths": true,
   "auto-close-tag.fullMode": true,
   "auto-close-tag.insertSpaceBeforeSelfClosingTag": true,
-  "auto-close-tag.SublimeText3Mode": true
+  "auto-close-tag.SublimeText3Mode": true,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": false
 }
