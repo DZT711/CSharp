@@ -1,5 +1,5 @@
 // test.cs
-namespace MyApp.TestNamespace//container for class
+namespace TestNamespace//container for class
 {
     public class Test
     {
