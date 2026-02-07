@@ -74,9 +74,10 @@ namespace SortingApp
             this.author = author;
         }
 
+        // Lớp Book
         public override string ToString()
         {
-            return title + " by " + author;
+            return title + "\t" + author;
         }
 
         public int CompareTo(object obj)
@@ -103,9 +104,10 @@ namespace SortingApp
             this.year = year;
         }
 
+        // Lớp Car
         public override string ToString()
         {
-            return year + " " + make + " " + model;
+            return year + "\t" + make + " " + model;
         }
 
         public int CompareTo(object obj)
@@ -130,11 +132,12 @@ namespace SortingApp
             this.gpa = gpa;
         }
 
+        // Lớp Student
         public override string ToString()
         {
-            return name + " with GPA: " + gpa;
+            return name + "\t GPA:" + gpa;
         }
-
+        public string GetName() => name;
         public int CompareTo(object obj)
         {
             if (obj == null) return 1;
@@ -190,6 +193,34 @@ namespace SortingApp
         }
     }
 
+    class Searching
+    {
+        // Tìm kiếm nhị phân (Chỉ dùng khi nhập ĐẦY ĐỦ các thuộc tính quan trọng để so sánh)
+        public static int BinarySearch(IComparable[] list, IComparable key)
+        {
+            int low = 0, high = list.Length - 1;
+            while (low <= high)
+            {
+                int mid = (low + high) / 2;
+                int result = list[mid].CompareTo(key);
+                if (result == 0) return mid;
+                if (result < 0) low = mid + 1;
+                else high = mid - 1;
+            }
+            return -1;
+        }
+
+        // Tìm kiếm linh hoạt (Cho phép nhập 1 phần hoặc 1 thuộc tính)
+        // Func<T, bool> giúp chúng ta truyền điều kiện tìm kiếm vào
+        public static int LinearSearchGeneric<T>(T[] list, Func<T, bool> match)
+        {
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (match(list[i])) return i;
+            }
+            return -1;
+        }
+    }
     // 3. Lớp Program (PhoneList) - Chứa hàm Main để chạy
     class Program
     {
@@ -209,22 +240,22 @@ namespace SortingApp
             // Thực hiện sắp xếp
             Sorting.SelectionSort(friends);
 
-            Console.WriteLine("--- Danh sách sau khi sắp xếp (C#) ---\n");
-            Console.WriteLine("Lớp Contact \n\nHọ, Tên\tSố điện thoại");
+            Console.WriteLine("--- List after sorting (C#) ---\n");
+            Console.WriteLine("Class Contact \n");
             foreach (var friend in friends)
             {
                 Console.WriteLine(friend);
             }
 
-            Book[] books = new Book[4]
+            Book[] books = new Book[3]
             {
                 new Book("The Great Gatsby", "F. Scott Fitzgerald"),
-                new Book("1984", "George Orwell"),
+                // new Book("1984", "George Orwell"),
                 new Book("To Kill a Mockingbird", "Harper Lee"),
                 new Book("Pride and Prejudice", "Jane Austen")
             };
             Sorting.InsertionSort(books);
-            Console.WriteLine("\nLớp Book \n");
+            Console.WriteLine("Class Book \n");
             foreach (var book in books)
             {
                 Console.WriteLine(book);
@@ -237,7 +268,7 @@ namespace SortingApp
                 new Car("Chevrolet", "Malibu", 2019)
             };
             Sorting.InsertionSort(cars);
-            Console.WriteLine("\nLớp Car \n");
+            Console.WriteLine("Class Car \n");
             foreach (var car in cars)
             {
                 Console.WriteLine(car);
@@ -250,7 +281,7 @@ namespace SortingApp
                 new Student("Diana", 3.9)
             };
             Sorting.InsertionSort(students);
-            Console.WriteLine("\nLớp Student \n");
+            Console.WriteLine("Class Student \n");
             foreach (var student in students)
             {
                 Console.WriteLine(student);
@@ -258,6 +289,99 @@ namespace SortingApp
             // Giữ màn hình console không tắt ngay
             // Console.WriteLine("\nNhan phim bat ky de thoat...");
             // Console.ReadKey();
+            Console.WriteLine("Choose an object to search:");
+            Console.WriteLine("1. Contact");
+            Console.WriteLine("2. Book");
+            Console.WriteLine("3. Car");
+            Console.WriteLine("4. Student");
+            string choice = Console.ReadLine();
+            string obj= null;
+            switch (choice)
+            {
+                case "1":
+                    obj = "Contact";
+                    break;
+                case "2":
+                    obj = "Book";
+                    break;
+                case "3":
+                    obj = "Car";
+                    break;
+                case "4":
+                    obj = "Student";
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+            while (obj != null)
+            {
+                Console.WriteLine($"\n--- Searching in {obj} ---");
+                int index = -1;
+
+                switch (obj)
+                {
+                    case "Contact":
+                        Console.WriteLine("Search by: 1.First Name | 2.Last Name | 3.Phone");
+                        string cAttr = Console.ReadLine();
+                        Console.Write("Enter keyword: ");
+                        string cKey = Console.ReadLine().ToLower();
+                        index = Searching.LinearSearchGeneric(friends, f =>
+                            (cAttr == "1" && f.GetFirstName().ToLower().Contains(cKey)) ||
+                            (cAttr == "2" && f.GetLastName().ToLower().Contains(cKey)) ||
+                            (cAttr == "3" && f.ToString().Contains(cKey)));
+                        break;
+
+                    case "Book":
+                        Console.WriteLine("Search by: 1.Title | 2.Author");
+                        string bAttr = Console.ReadLine();
+                        Console.Write("Enter keyword: ");
+                        string bKey = Console.ReadLine().ToLower();
+                        index = Searching.LinearSearchGeneric(books, b =>
+                            (bAttr == "1" && b.ToString().ToLower().Split('\t')[0].Contains(bKey)) ||
+                            (bAttr == "2" && b.ToString().ToLower().Contains(bKey)));
+                        break;
+
+                    case "Car":
+                        Console.WriteLine("Search by: 1.Year | 2.Brand/Model");
+                        string carAttr = Console.ReadLine();
+                        Console.Write("Enter keyword: ");
+                        string carKey = Console.ReadLine().ToLower();
+                        index = Searching.LinearSearchGeneric(cars, c =>
+                            (carAttr == "1" && c.ToString().StartsWith(carKey)) ||
+                            (carAttr == "2" && c.ToString().ToLower().Contains(carKey)));
+                        break;
+
+                    case "Student":
+                        Console.WriteLine("Search by: 1.Name | 2.GPA");
+                        string sAttr = Console.ReadLine();
+                        Console.Write("Enter keyword: ");
+                        string sKey = Console.ReadLine().ToLower();
+                        index = Searching.LinearSearchGeneric(students, s =>
+                            (sAttr == "1" && s.ToString().ToLower().Contains(sKey)) ||
+                            (sAttr == "2" && s.ToString().Contains(sKey)));
+                        break;
+                }
+
+                if (index != -1)
+                {
+                    // Hiển thị kết quả dựa trên Object đang chọn
+                    object foundObj = (obj == "Contact") ? friends[index] :
+                                     (obj == "Book") ? books[index] :
+                                     (obj == "Car") ? (object)cars[index] : students[index];
+                    Console.WriteLine($"[SUCCESS] Found at index {index}: {foundObj}");
+                }
+                else
+                {
+                    Console.WriteLine("[FAILED] No match found.");
+                }
+
+                // Cho phép người dùng chọn lại hoặc thoát
+                Console.WriteLine("\nSearch another object? (1:Contact, 2:Book, 3:Car, 4:Student, 0:Exit)");
+                string next = Console.ReadLine();
+                if (next == "0") break;
+                obj = (next == "1") ? "Contact" : (next == "2") ? "Book" : (next == "3") ? "Car" : (next == "4") ? "Student" : null;
+            }
         }
     }
 }
