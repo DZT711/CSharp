@@ -1,5 +1,5 @@
 class ExponentAn{
-    public int Calculate(int a, int n)
+    public double Calculate(double a, double n)
     {
         if (n == 0)
         {
@@ -9,17 +9,28 @@ class ExponentAn{
         {
             return a;
         }
-        int half = Calculate(a, (int)Math.Floor((double)n / 2));
+        double half = Calculate(a, (double)Math.Floor((double)n / 2));
         // Implementation for calculating a^n
-        if (n % 2 == 0){
+        if (n % 2 == 0)
+        {
             return half * half;
         }
         return half * half * a;
     }
+    public void BruteForce(double a, double n)
+    {
+        double result = 1;
+        for (double i = 0; i < n; i++)
+        {
+            result *= a;
+        }
+        Console.WriteLine("BF Result: " + result);
+    }
     public static void Main(string[] args)
     {
         ExponentAn exp = new ExponentAn();
-        int result = exp.Calculate(2, 3);
-        Console.WriteLine("Result: " + result);
+        double result = exp.Calculate(2, 100);
+        Console.WriteLine("Divide and Conquer Algorithm Result: " + result);
+        exp.BruteForce(2, 100);
     }
 }
