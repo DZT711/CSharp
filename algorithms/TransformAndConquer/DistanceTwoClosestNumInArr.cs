@@ -50,6 +50,22 @@ class Program
         }
         return minDiff;
     }
+    static int BruteForceAlg(int[] arr)
+    {
+        int minDiff = int.MaxValue;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            for (int j = i + 1; j < arr.Length; j++)
+            {
+                int diff = Math.Abs(arr[i] - arr[j]);
+                if (diff < minDiff)
+                {
+                    minDiff = diff;
+                }
+            }
+        }
+        return minDiff;
+    }
 
     static void Main(string[] args)
     {
