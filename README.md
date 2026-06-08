@@ -14,9 +14,9 @@
 ![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 ![Visual Studio Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
-![Repo Size](https://img.shields.io/github/repo-size/DZT711/CSharp?style=flat-square&color=512BD4)
-![Last Commit](https://img.shields.io/github/last-commit/DZT711/CSharp?style=flat-square&color=239120)
-![Language](https://img.shields.io/github/languages/top/DZT711/CSharp?style=flat-square&color=239120)
+![Top Language](https://img.shields.io/badge/C%23-96.8%25-239120?style=flat-square)
+![Topics](https://img.shields.io/badge/topics-OOP%20%7C%20Algorithms%20%7C%20.NET-512BD4?style=flat-square)
+![Status](https://img.shields.io/badge/status-learning-blue?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
 </div>
